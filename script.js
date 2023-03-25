@@ -19,7 +19,7 @@ function getLocation() {
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 const lat = position.coords.latitude;
-                const lang = position.coords.longitude;
+                const long = position.coords.longitude;
                 localStorage.setItem("lat", lat);
                 localStorage.setItem("long", long);
                 displayMap(lat, long);
@@ -31,16 +31,30 @@ function getLocation() {
     }
 }
 
-function displayMap(lat, long) {
-    const mapUrl = ;
-    const iframe = document.createElement("iframe");
-    iframe.src = mapUrl;
-    iframe.width = "100%";
-    iframe.height = "480";
-    iframe.frameborder = "0";
-    mapDiv.appendChild(iframe);
+function displayMap() {
+    // Get latitude and longitude from local storage
+    const lat = localStorage.getItem("lat");
+    const long = localStorage.getItem("long");
+  
+    // Check if latitude and longitude are present
+    if (lat && long) {
+      // Create a Google Maps search link with the latitude and longitude
+      const mapsLink = `https://www.google.com/maps/search/?api=1&query=${lat},${long}`;
+  
+      // Create an iframe element and set its attributes
+      const iframe = document.createElement("iframe");
+      iframe.setAttribute("src", mapsLink);
+      iframe.setAttribute("width", "100%");
+      iframe.setAttribute("height", "500");
+      iframe.setAttribute("frameborder", "0");
+      iframe.setAttribute("style", "border:0;");
+  
+      // Get the map container div and append the iframe element to it
+      const mapContainer = document.getElementById("map");
+      mapContainer.appendChild(iframe);
+    }
   }
-
+  
 removeLocationBtn.addEventListener("click", removeLocation);
 
 // Function to remove the user's location from local storage
